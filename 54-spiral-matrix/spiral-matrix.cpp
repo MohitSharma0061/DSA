@@ -1,50 +1,45 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int>ans;
+        int row=matrix.size();
+        int col=matrix[0].size();
+        int count=0;
 
-        vector<int> ans;
-        int row = matrix.size();
-        int col = matrix[0].size();
+        int total=row*col;
+        int startingrow=0;
+        int startingcol=0;
+        int endingrow=row-1;
+        int endingcol=col-1;
 
-        int count = 0;
-        int total = row * col; // ✅ corrected typo
+        while(count<total){
+            // starting row print
+            for(int index=startingcol; index<=endingcol && count<total; index++){
+                ans.push_back(matrix[startingrow][index]);
+                count++;
 
-        //index initialisation
-        int startingRow = 0;
-        int startingCol = 0;
-        int endingRow = row - 1;
-        int endingCol = col - 1;
-
-        while(count < total) {
-            //print starting row
-            for(int index = startingCol; count < total && index <= endingCol; index++) {
-                ans.push_back(matrix[startingRow][index]);
+            }
+            startingrow++;
+            // endingcol printing
+            for(int index=startingrow; index<=endingrow && count<total; index++){
+                ans.push_back(matrix[index][endingcol]);
                 count++;
             }
-            startingRow++;
+            endingcol--;
+            //ending row printing
+            for(int index=endingcol; index>=startingcol && count<total; index--){
+                ans.push_back(matrix[endingrow][index]);
+                count++;
 
-            //print ending column
-            for(int index = startingRow; count < total && index <= endingRow; index++) {
-                ans.push_back(matrix[index][endingCol]);
+            }
+            endingrow--;
+            //startingcol printing
+            for(int index=endingrow; index>=startingrow && count<total; index--){
+                ans.push_back(matrix[index][startingcol]);
                 count++;
             }
-            endingCol--;
-
-            //print ending row
-            for(int index = endingCol; count < total && index >= startingCol; index--) {
-                ans.push_back(matrix[endingRow][index]);
-                count++;
-            }
-            endingRow--;
-
-            //print starting column
-            for(int index = endingRow; count < total && index >= startingRow; index--) {
-                ans.push_back(matrix[index][startingCol]);
-                count++;
-            }
-            startingCol++;
+            startingcol++;
         }
-
         return ans;
     }
 };
