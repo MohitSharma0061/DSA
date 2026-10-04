@@ -1,19 +1,15 @@
 class Solution {
-public:
-    bool checkValidString(string s) {
-        bitset<101> mask;
-        mask.set(0);
-
-        for (char ch : s) {
-            if (ch == '(') {
-                mask <<= 1;
-            } else if (ch == ')') {
-                mask >>= 1;
-            } else {
-                mask = (mask << 1) | mask | (mask >> 1);
-            }
+public:   
+    bool checkValidString(string& s) {
+        int n=s.size();
+        int bMin=0, bMax=0;
+        for(int i=n-1; i>=0; i--){
+            char c=s[i];
+            bMin+=(c==')')-(c=='(')-(c=='*');
+            bMax+=(c==')')-(c=='(')+(c=='*');
+            if (bMax<0) return 0;
+            bMin=max(bMin, 0);
         }
-
-        return mask.test(0);
+        return bMin==0;
     }
 };
